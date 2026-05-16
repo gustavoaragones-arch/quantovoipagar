@@ -1,0 +1,719 @@
+.site {
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100%;
+  padding: 1.5rem 1.25rem 5.5rem;
+}
+
+@media (max-width: 767px) {
+  .app {
+    padding: 0.65rem 1rem 5.5rem;
+  }
+}
+
+.calculator-layout {
+  display: grid;
+  gap: 2rem;
+  max-width: 960px;
+  margin: 0 auto 3rem;
+}
+
+@media (min-width: 768px) {
+  .calculator-layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.calculator-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.calculator-subtitle {
+  margin: 0 0 1rem;
+  color: var(--text-muted, #555);
+}
+
+.rate-badge {
+  display: inline-block;
+  margin: 0 0 1.5rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  background: #e8f4fd;
+  color: #0b5cab;
+}
+
+.rate-badge[data-status='fallback'] {
+  background: #fff4e5;
+  color: #8a5a00;
+}
+
+.calculator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field label,
+.field legend {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field input[type='text'],
+.field select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.field input[type='text']:focus,
+.field select:focus {
+  outline: 2px solid #0b5cab;
+  outline-offset: 1px;
+  border-color: #0b5cab;
+}
+
+.required {
+  color: #c00;
+}
+
+.remessa-toggle {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toggle-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.toggle-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.field-hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted, #666);
+}
+
+/* —— Premium receipt —— */
+.receipt {
+  perspective: 800px;
+}
+
+.receipt-paper {
+  position: relative;
+  padding: 1.35rem 1.25rem 1.75rem;
+  background: linear-gradient(180deg, #fffef9 0%, #f8f6f0 100%);
+  border: 1px solid #d8d4c8;
+  border-radius: 4px 4px 0 0;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 8px 24px rgb(0 0 0 / 8%),
+    0 2px 4px rgb(0 0 0 / 4%);
+  font-family: 'SF Mono', 'Consolas', 'Liberation Mono', monospace;
+}
+
+.receipt-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-align: left;
+  margin-bottom: 0.75rem;
+}
+
+.receipt-brand-mark {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.receipt-brand-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.receipt-brand-sub {
+  margin: 0.15rem 0 0;
+  font-size: 0.7rem;
+  color: #666;
+  letter-spacing: 0.02em;
+}
+
+.receipt-divider {
+  margin: 0.5rem 0;
+  text-align: center;
+  font-size: 0.65rem;
+  color: #aaa;
+  letter-spacing: 0.12em;
+  user-select: none;
+}
+
+.receipt-divider--bold {
+  color: #888;
+  margin: 0.65rem 0;
+}
+
+.receipt-lines {
+  margin: 0;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed #ddd9ce;
+  opacity: 0;
+  animation: receiptLineIn 0.45s ease forwards;
+}
+
+.receipt-row dt,
+.receipt-row-label {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #444;
+  line-height: 1.35;
+  max-width: 62%;
+}
+
+.receipt-row dd,
+.receipt-row-value {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #1a1a1a;
+}
+
+.receipt-row--pulse {
+  animation:
+    receiptLineIn 0.45s ease forwards,
+    icmsPulse 0.7s ease;
+  background: rgb(11 92 171 / 6%);
+  border-radius: 4px;
+  margin: 0 -0.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+@keyframes receiptLineIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes icmsPulse {
+  0%,
+  100% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgb(11 92 171 / 25%);
+  }
+}
+
+.receipt-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0 0.25rem;
+  border-bottom: none;
+  opacity: 0;
+  animation: receiptLineIn 0.5s ease forwards;
+}
+
+.receipt-total dt,
+.receipt-total .receipt-row-label {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.receipt-total-amount {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0b5cab;
+}
+
+.traffic-light {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: system-ui, sans-serif;
+  opacity: 0;
+  animation: receiptLineIn 0.45s ease 0.45s forwards;
+}
+
+.traffic-light-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.traffic-light--green {
+  background: #e8f7ee;
+  color: #1a6b3c;
+}
+
+.traffic-light--green .traffic-light-dot {
+  background: #22c55e;
+}
+
+.traffic-light--yellow {
+  background: #fff8e6;
+  color: #8a5a00;
+}
+
+.traffic-light--yellow .traffic-light-dot {
+  background: #eab308;
+}
+
+.traffic-light--red {
+  background: #fdecec;
+  color: #9b1c1c;
+}
+
+.traffic-light--red .traffic-light-dot {
+  background: #ef4444;
+}
+
+.receipt-footer {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #ddd9ce;
+}
+
+.receipt-footer p {
+  margin: 0.25rem 0 0;
+  font-size: 0.65rem;
+  color: #888;
+  font-family: system-ui, sans-serif;
+}
+
+.receipt-disclaimer {
+  font-style: italic;
+}
+
+.receipt-tear {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 8px;
+  background: linear-gradient(135deg, #f8f6f0 33%, transparent 33%) -4px 0,
+    linear-gradient(225deg, #f8f6f0 33%, transparent 33%) -4px 0;
+  background-size: 8px 8px;
+  background-color: transparent;
+}
+
+/* —— FAQ / E-E-A-T —— */
+.import-faq {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 0.25rem;
+}
+
+.import-faq h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.faq-item summary {
+  padding: 1rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  float: right;
+  font-weight: 400;
+  color: #0b5cab;
+}
+
+.faq-item[open] summary::after {
+  content: '−';
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 1.1rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.faq-item[open] {
+  border-color: #b8d4f0;
+  box-shadow: 0 2px 8px rgb(11 92 171 / 6%);
+}
+
+/* —— Metodologia / transparência —— */
+.transparency {
+  max-width: 720px;
+  margin: 2.5rem auto 0;
+  padding: 0 0.25rem;
+}
+
+.transparency h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.transparency-intro {
+  margin: 0 0 1.25rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.transparency-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .transparency-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.transparency-card {
+  padding: 1rem 1.1rem;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.transparency-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0b5cab;
+}
+
+.transparency-card p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #444;
+}
+
+/* —— Above-the-fold (mobile) —— */
+.calculator-fold {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+@media (max-width: 767px) {
+  .calculator-header {
+    margin-bottom: 0.35rem;
+  }
+
+  .calculator-header h1 {
+    margin-bottom: 0.15rem;
+    font-size: 1.3rem;
+    line-height: 1.15;
+  }
+
+  .calculator-subtitle {
+    margin-bottom: 0.35rem;
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .calculator-header .rate-badge {
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.72rem;
+  }
+
+  .calculator-fold {
+    gap: 0.45rem;
+  }
+
+  .calculator-fold .field {
+    margin: 0;
+  }
+
+  #product-price {
+    scroll-margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .calculator-subtitle {
+    display: none;
+  }
+}
+
+/* —— Quick presets —— */
+.quick-presets {
+  margin-bottom: 0;
+}
+
+.quick-presets-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #666;
+}
+
+.quick-presets-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 767px) {
+  .quick-presets-label {
+    margin-bottom: 0.3rem;
+    font-size: 0.7rem;
+  }
+
+  .quick-presets-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.1rem;
+    scrollbar-width: none;
+  }
+
+  .quick-presets-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quick-preset-btn {
+    flex-shrink: 0;
+    padding: 0.32rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}
+
+.quick-preset-btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #c8d8ea;
+  border-radius: 999px;
+  background: #fff;
+  color: #0b5cab;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    transform 0.1s;
+}
+
+.quick-preset-btn:hover {
+  background: #e8f4fd;
+  border-color: #0b5cab;
+}
+
+.quick-preset-btn--active {
+  background: #0b5cab;
+  border-color: #0b5cab;
+  color: #fff;
+}
+
+/* —— Brazil compare —— */
+.compare-brazil {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.compare-brazil-legend {
+  margin-bottom: 0;
+}
+
+.compare-brazil-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.compare-brazil-toggle input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #0b5cab;
+}
+
+/* —— Brazil savings —— */
+.brazil-savings {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-family: system-ui, sans-serif;
+  line-height: 1.4;
+}
+
+.brazil-savings p {
+  margin: 0;
+}
+
+.brazil-savings--win {
+  background: #e8f7ee;
+  color: #1a6b3c;
+  border: 1px solid #b8e6c8;
+}
+
+.brazil-savings--lose {
+  background: #fff4e5;
+  color: #8a5a00;
+  border: 1px solid #f0d9a8;
+}
+
+/* —— Affiliate rails —— */
+.affiliate-rails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #ddd9ce;
+}
+
+.affiliate-btn {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  transition:
+    transform 0.1s,
+    box-shadow 0.15s;
+}
+
+.affiliate-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 10%);
+}
+
+.affiliate-btn--forwarder {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.affiliate-btn--fintech {
+  background: linear-gradient(135deg, #0b5cab 0%, #083d73 100%);
+  color: #fff;
+}
+
+.affiliate-microcopy {
+  margin: 0;
+  font-size: 0.65rem;
+  color: #666;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+}
+
+/* —— Copy summary —— */
+.copy-summary-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  border: 1px dashed #0b5cab;
+  border-radius: 6px;
+  background: #fff;
+  color: #0b5cab;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.copy-summary-btn:hover {
+  background: #e8f4fd;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .receipt-row,
+  .receipt-total,
+  .traffic-light {
+    animation: none;
+    opacity: 1;
+  }
+
+  .receipt-row--pulse {
+    animation: none;
+  }
+
+  .affiliate-btn:hover,
+  .quick-preset-btn:hover {
+    transform: none;
+  }
+}

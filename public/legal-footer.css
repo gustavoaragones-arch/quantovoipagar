@@ -1,0 +1,44 @@
+/* Shared legal footer — React app + static legal pages */
+body.has-legal-footer {
+  padding-bottom: 5.5rem;
+}
+
+.legal-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  padding-bottom: max(0.6rem, env(safe-area-inset-bottom));
+  background: rgb(26 26 26 / 94%);
+  color: #ccc;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgb(255 255 255 / 8%);
+}
+
+.legal-footer-text {
+  margin: 0;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.legal-footer-links {
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+}
+
+.legal-footer-links a {
+  color: #7eb8f7;
+  text-decoration: none;
+}
+
+.legal-footer-links a:hover {
+  text-decoration: underline;
+}
+
+.legal-footer-links span {
+  margin: 0 0.35rem;
+  color: #555;
+}
