@@ -20,6 +20,19 @@
   margin: 0 auto 3rem;
 }
 
+.calculator-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12rem;
+}
+
+.loading-state {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
 @media (min-width: 768px) {
   .calculator-layout {
     grid-template-columns: 1fr 1fr;

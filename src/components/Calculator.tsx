@@ -12,11 +12,13 @@ import {
   QuickPresets,
   type QuickPreset,
 } from './QuickPresets';
+import {
+  FALLBACK_USD_BRL,
+  getSafeExchangeRate,
+  parseUsdBrlFromAwesomeApi,
+  USD_BRL_API,
+} from '../lib/awesomeApi';
 import { Receipt } from './Receipt';
-
-const USD_BRL_API =
-  'https://economia.awesomeapi.com.br/json/last/USD-BRL';
-const FALLBACK_USD_BRL = 5.5;
 
 const EMPTY_RESULT: ImportCalculation = {
   cifValue: 0,
@@ -34,10 +36,11 @@ export function Calculator() {
   const [shipping, setShipping] = useState(0);
   const [state, setState] = useState('SP');
   const [remessaConforme, setRemessaConforme] = useState(true);
-  const [usdToBrl, setUsdToBrl] = useState(FALLBACK_USD_BRL);
+  const [exchangeRate, setExchangeRate] = useState<number>(FALLBACK_USD_BRL);
   const [rateStatus, setRateStatus] = useState<'loading' | 'live' | 'fallback'>(
     'loading',
   );
+  const [rateInitialized, setRateInitialized] = useState(false);
   const [compareBrazil, setCompareBrazil] = useState(false);
   const [brazilPrice, setBrazilPrice] = useState(0);
   const [activePresetId, setActivePresetId] = useState<string>();
@@ -52,24 +55,28 @@ export function Calculator() {
         });
         if (!response.ok) throw new Error('rate fetch failed');
 
-        const data = (await response.json()) as {
-          USDBRL?: { bid?: string };
-        };
-        const bid = Number(data.USDBRL?.bid);
-        if (!Number.isFinite(bid) || bid <= 0) throw new Error('invalid bid');
+        const data: unknown = await response.json();
+        const parsed = parseUsdBrlFromAwesomeApi(data);
+        if (parsed === null) throw new Error('invalid USDBRL quote');
 
-        setUsdToBrl(bid);
+        setExchangeRate(parsed);
         setRateStatus('live');
       } catch {
         if (controller.signal.aborted) return;
-        setUsdToBrl(FALLBACK_USD_BRL);
+        setExchangeRate(FALLBACK_USD_BRL);
         setRateStatus('fallback');
+      } finally {
+        if (!controller.signal.aborted) {
+          setRateInitialized(true);
+        }
       }
     }
 
     fetchRate();
     return () => controller.abort();
   }, []);
+
+  const safeExchangeRate = getSafeExchangeRate(exchangeRate);
 
   const result = useMemo(
     () =>
@@ -78,9 +85,9 @@ export function Calculator() {
         shipping,
         state,
         remessaConforme,
-        usdToBrl,
+        safeExchangeRate,
       ),
-    [productPrice, shipping, state, remessaConforme, usdToBrl],
+    [productPrice, shipping, state, remessaConforme, safeExchangeRate],
   );
 
   const displayResult =
@@ -111,6 +118,16 @@ export function Calculator() {
     if (meta) meta.setAttribute('content', category.description);
   }, [applyPreset]);
 
+  if (!rateInitialized || !getSafeExchangeRate(exchangeRate)) {
+    return (
+      <div className="calculator-layout calculator-loading">
+        <p className="loading-state" role="status">
+          Buscando câmbio atual…
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="calculator-layout">
       <section className="calculator" aria-label="Calculadora de importação">
@@ -122,9 +139,9 @@ export function Calculator() {
           <p className="rate-badge" data-status={rateStatus}>
             {rateStatus === 'loading' && 'Atualizando câmbio USD → BRL…'}
             {rateStatus === 'live' &&
-              `Câmbio ao vivo: 1 USD = ${usdToBrl.toFixed(4)} BRL`}
+              `Câmbio ao vivo: 1 USD = ${safeExchangeRate.toFixed(4)} BRL`}
             {rateStatus === 'fallback' &&
-              `Câmbio estimado: 1 USD = ${usdToBrl.toFixed(4)} BRL`}
+              `Câmbio estimado: 1 USD = ${safeExchangeRate.toFixed(4)} BRL`}
           </p>
         </header>
 
@@ -224,7 +241,7 @@ export function Calculator() {
 
       <Receipt
         result={displayResult}
-        usdToBrl={usdToBrl}
+        usdToBrl={safeExchangeRate}
         remessaConforme={remessaConforme}
         state={state}
         productPrice={productPrice}
