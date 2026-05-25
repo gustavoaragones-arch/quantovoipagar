@@ -1,7 +1,5 @@
 /* Shared legal footer — React app + static legal pages */
 body.has-legal-footer {
-  background-color: #0d0d0d;
-  color: #e8e8e8;
   padding-bottom: 2rem;
 }
 
